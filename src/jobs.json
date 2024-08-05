@@ -1,0 +1,27 @@
+{
+  "user": [
+    {
+      "id": "d1b1",
+      "fullname": "Yonas Tewabe",
+      "age": "22",
+      "sex": "male",
+      "experience": "less than 1 Year",
+      "cv": "C:\\fakepath\\Yonas Tewabe CV.pdf",
+      "degree": "Computer Science",
+      "university": "Debre Birhan University",
+      "contactEmail": "yonastewabe21@gmail.com",
+      "contactPhone": "0919370544"
+    },
+    {
+      "id": "bb68",
+      "fullname": "Yonas Tewabe",
+      "age": "23",
+      "sex": "Male",
+      "experience": "less than 1 Year",
+      "degree": "Computer Science",
+      "university": "Debre Birhan University",
+      "contactEmail": "yonastewabe21@gmail.com",
+      "contactPhone": "09"
+    }
+  ]
+}
