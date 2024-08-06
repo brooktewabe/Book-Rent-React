@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import axios from "axios";
 import Cookies from "js-cookie";
+import book from "../assets/blue-book.jpg";
 
 const ValidatedLoginForm = () => {
   const [email, setEmail] = useState("");
@@ -16,24 +17,24 @@ const ValidatedLoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!validateForm()) {
       return;
     }
-  
+
     try {
       const response = await axios.post("http://localhost:5000/profile/login", {
         email,
         password,
       });
-  
+
       Cookies.set("jwt", response.data.jwt, { expires: 1 });
       Cookies.set("userId", response.data.profileId, { expires: 1 });
       // localStorage.setItem("usercompleted", response.data.usercompleted);
       // localStorage.setItem("hrcompleted", response.data.hrcompleted);
       // localStorage.setItem("hrStatus", response.data.hrStatus);
       localStorage.setItem("role", response.data.role);
-  
+
       setEmail("");
       setPassword("");
       navigateAfterLogin();
@@ -72,104 +73,112 @@ const ValidatedLoginForm = () => {
     // const usercompleted = localStorage.getItem("usercompleted");
     // const hrcompleted = localStorage.getItem("hrcompleted");
 
-    if ( role ==='admin') {
+    if (role === "admin") {
       navigate("/");
-    } else if (role === 'book_owner') {
+    } else if (role === "book_owner") {
       navigate(`/UpdateUser/${Cookies.get("userId")}`);
-    } 
+    }
   };
 
   return (
-  <div className="flex items-center h-screen">
-    <div className="w-1/2 bg-blue-950  flex flex-col justify-center shadow-md h-screen ">
-    <p className="text-white items-center text-center">Book Rent</p>
-  </div>
-  <div className="w-1/2 bg-white px-8 mb-4">
-    <p className="text-2xl">Book Rent</p>
-    <p className="mt-4 text-2xl">Login as Book Owner</p>
-    <hr />
-    {errors.login && <div className="text-red-500 text-sm text-center">{errors.login}</div>}
-    <form onSubmit={handleSubmit} className="mx-auto mt-8">
-      <div className="mb-4">
-        <label
-          htmlFor="email"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="text"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-            errors.email ? "border-red-500" : ""
-          }`}
-        />
-        {errors.email && (
-          <div className="text-red-500 text-sm">{errors.email}</div>
-        )}
-
-        <label
-          htmlFor="password"
-          className="block text-gray-700 text-sm font-bold mt-6 mb-2"
-        >
-          Password
-        </label>
-        <div className="relative">
-          <input
-            id="password"
-            name="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={`border rounded py-2 px-3 w-full ${
-              errors.password ? "border-red-500" : ""
-            }`}
-          />
-          {errors.password && (
-            <div className="text-red-500 text-sm">{errors.password}</div>
-          )}
-          <button
-            type="button"
-            className="absolute inset-y-0 right-0 pr-3 flex items-center"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <BiHide /> : <BiShow />}
-          </button>
-        </div>
-        <div className="mt-3">
-          <input type="checkbox" name="check" />
-          <label> Remember me</label>
-        </div>
-
-        <div className="mt-5">
-          <button
-            type="submit"
-            className="bg-blue-400 hover:bg-blue-400 text-white font-bold py-1 px-40 rounded w-full"
-          >
-            Login
-          </button>
-        </div>
+    <div className="flex items-center h-screen">
+      <div className="w-1/2 bg-blue-950 flex items-center justify-center shadow-md h-screen">
+        <img src={book} width={300} height={70} alt="Book" />
       </div>
-    </form>
-    <div className="text-center justify-between">
-      {/* <Link to="/forgotpassword" className="text-sm text-blue-500">
+      <div className="w-1/2 bg-white px-8 mb-4">
+        <div className="flex items-center space-x-4 ml-4">
+          <img src={book} width={30} height={30} alt="Book" />
+          <p className="text-2xl">Book Rent</p>
+        </div>
+
+        <p className="mt-4 text-2xl">Login</p>
+        <hr />
+        {errors.login && (
+          <div className="text-red-500 text-sm text-center">{errors.login}</div>
+        )}
+        <form onSubmit={handleSubmit} className="mx-auto mt-8">
+          <div className="mb-4">
+            <fieldset
+              className={`border rounded w-full py-2 px-3 mb-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                errors.email ? "border-red-500" : "border-gray-300"
+              }`}
+            >
+              <legend className={`text-xs px-2  "text-gray-700`}>
+                Email address
+              </legend>
+              <input
+                id="email"
+                name="email"
+                type="text"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full border-0 focus:outline-none"
+              />
+            </fieldset>
+            {errors.email && (
+              <div className="text-red-500 text-sm">{errors.email}</div>
+            )}
+
+            <fieldset
+              className={`border rounded w-full py-2 px-3 mb-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                errors.password ? "border-red-500" : "border-gray-300"
+              }`}
+            >
+              <legend className={`text-xs px-2  "text-gray-700`}>
+                Password
+              </legend>
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full border-0 focus:outline-none"
+                />
+
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <BiHide /> : <BiShow />}
+                </button>
+              </div>
+            </fieldset>
+            {errors.password && (
+              <div className="text-red-500 text-sm">{errors.password}</div>
+            )}
+            <div className="mt-3">
+              <input type="checkbox" name="check" />
+              <label> Remember me</label>
+            </div>
+
+            <div className="mt-5">
+              <button
+                type="submit"
+                className="bg-blue-400 hover:bg-blue-400 text-white font-bold py-1 px-40 rounded w-full"
+              >
+                Login
+              </button>
+            </div>
+          </div>
+        </form>
+        <div className="text-center justify-between">
+          {/* <Link to="/forgotpassword" className="text-sm text-blue-500">
         Forgot Password?
       </Link> */}
-      <span className="text-sm">
-        Don&apos;t have an account?
-        <Link to="/signup" className="text-blue-400">
-          Sign Up
-        </Link>
-      </span>
+          <span className="text-sm">
+            Don&apos;t have an account?
+            <Link to="/signup" className="text-blue-400">
+              Sign Up
+            </Link>
+          </span>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
   );
 };
 
