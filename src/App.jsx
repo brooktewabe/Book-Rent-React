@@ -23,6 +23,7 @@ import ViewHrList from "./Pages/ViewHrList";
 import CompanyInfo from "./Pages/CompanyInfo";
 import ViewUserList from "./Pages/ViewUserList";
 import Dashboard from "./Pages/Dashboard"
+import AddBook from './Pages/AddBook'
 
 const App = () => {
   // Add new job
@@ -51,7 +52,8 @@ const App = () => {
         <Route index element={<HomePage />} />
         <Route path='*' element={<NotFoundPage />} />
         <Route path='/jobs' element={<Jobs />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/add-book' element={<AddBook />} />
+        <Route path='/dashboard' element={<Dashboard />} loader={userLoader}/>
         <Route path='/report' element={<ViewReport />} />
         <Route path='/add-job' element={<AddJob addJobSubmit={addJob} />} />
         <Route path='/UpdateUser/:id' element={<UpdateUser />} loader={userLoader} />

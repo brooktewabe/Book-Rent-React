@@ -12,6 +12,10 @@ export default {
       colors: {
         background: "#217FBE",
       },
+      fontSize: {
+        'xs': '0.75rem',  // Custom size smaller than text-sm
+        'xxs': '0.625rem', // Even smaller size
+      },
     },
   },
   plugins: [],

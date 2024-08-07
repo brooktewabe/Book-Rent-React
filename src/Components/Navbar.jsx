@@ -80,8 +80,8 @@ const Navbar = () => {
     },
     {
       icon: <CiViewList size={25} className="mr-4" />,
-      text: "All Jobs",
-      link: "/jobs",
+      text: "Book Upload",
+      link: "/add-book",
       className: { linkClass },
     },
     {
@@ -156,11 +156,11 @@ const Navbar = () => {
         ref={sidebarRef}
         className={
           nav
-            ? "fixed top-0 left-0 w-[270px] h-screen bg-blue-950 z-70 duration-300 rounded-lg"
+            ? "fixed top-0 left-0 w-[270px] h-screen bg-[#100920] z-70 duration-300 rounded-lg"
             : "fixed top-0 left-[-100%] w-[300px] h-screen bg-blue-950 z-70 duration-300 rounded-lg"
         }
       >
-        <div className="bg-blue-950 rounded-t-xl">
+        <div className="bg-[#120927] rounded-t-xl">
           <div className="flex items-center space-x-4 ml-4">
             <img src={book} width={30} height={30} alt="Book" />
             <br /><br />
@@ -234,8 +234,8 @@ const Navbar = () => {
             </div>
           </ul>
         </nav>
-        <div className="absolute bottom-10 left-10">
-          <button className=" hover:bg-[#1198f1] bg-slate-700 flex items-center text-white" onClick={handleLogout}>
+        <div className="absolute bottom-10 left-10 ">
+          <button className=" hover:bg-[#1198f1] px-5 bg-slate-700 flex items-center text-white" onClick={handleLogout}>
             <CiLogout size={30} className="mr-4" /> Logout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </button>
         </div>
