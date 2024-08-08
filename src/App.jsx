@@ -23,6 +23,8 @@ import ViewHrList from "./Pages/ViewHrList";
 import CompanyInfo from "./Pages/CompanyInfo";
 import ViewUserList from "./Pages/ViewUserList";
 import Dashboard from "./Pages/Dashboard"
+import Books from './Pages/Books'
+import Owners from './Pages/Owners'
 import AddBook from './Pages/AddBook'
 
 const App = () => {
@@ -53,6 +55,8 @@ const App = () => {
         <Route path='*' element={<NotFoundPage />} />
         <Route path='/jobs' element={<Jobs />} />
         <Route path='/add-book' element={<AddBook />} />
+        <Route path='/books' element={<Books />} />
+        <Route path='/owners' element={<Owners />} />
         <Route path='/dashboard' element={<Dashboard />} loader={userLoader}/>
         <Route path='/report' element={<ViewReport />} />
         <Route path='/add-job' element={<AddJob addJobSubmit={addJob} />} />

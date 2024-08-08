@@ -2,7 +2,9 @@ import { useState } from 'react';
 import Modal from 'react-modal';
 import axios from '../axiosInterceptor';
 import { GoUpload } from "react-icons/go";
-
+import Swal from 'sweetalert2';
+import { toast, ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 Modal.setAppElement('#root'); // for accessibility
 
@@ -11,7 +13,7 @@ const CreateBook = () => {
   const [bookName, setBookName] = useState('');
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState('');
-  const [noOfCopies, setNoOfCopies] = useState(0);
+  const [NoOfCopies, setNoOfCopies] = useState(0);
   const [rentPrice, setRentPrice] = useState('');
   const [cover, setCover] = useState(null);
   const [book, setBook] = useState(null);
@@ -29,10 +31,12 @@ const CreateBook = () => {
     formData.append('bookName', bookName);
     formData.append('author', author);
     formData.append('category', category);
-    formData.append('noOfCopies', noOfCopies);
+    formData.append('NoOfCopies', NoOfCopies);
     formData.append('rentPrice', rentPrice);
-    formData.append('cover', cover);
-    formData.append('book', book);
+    formData.append('files', cover);
+    formData.append('files', book);
+    formData.append('uploadedAt', new Date().toISOString()); // Add current timestamp
+
 
     try {
       const response = await axios.post('http://localhost:5000/books/create', formData, {
@@ -41,20 +45,30 @@ const CreateBook = () => {
         },
       });
       console.log(response.data);
-      // Handle success
+      
+      Swal.fire({
+        title: 'Success!',
+        text: 'Book created successfully.',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        closeModal();
+        toast.success("Book Created Successfully");
+      });
     } catch (error) {
       console.error('Error creating book:', error);
-      // Handle error
+      toast.error("Error creating book. Try again later.");
     }
   };
 
   return (
     <div className="flex justify-center min-h-screen bg-white">
-      <div className="bg-white p-6 rounded-lg  w-full max-w-lg">
+      <div className="bg-white p-6 rounded-lg w-full max-w-lg">
         <div className="text-center mb-8">
           <br /><br /><br />
           <p className='font-bold'>Upload New Book</p><br />
-          <button onClick={openModal} className="bg-slate-300 text-white  py-2 rounded-md w-3/5">
+          <button onClick={openModal} className="bg-slate-300 text-white py-2 rounded-md w-3/5">
             Add Book
           </button>
         </div>
@@ -62,7 +76,7 @@ const CreateBook = () => {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           contentLabel="Add Book"
-          className="bg-white p-6  rounded-lg shadow-md w-1/2 mx-auto"
+          className="bg-white p-6 rounded-lg shadow-md w-1/2 mx-auto"
           overlayClassName="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center"
         >
           <h2 className="text-xl mb-4 text-gray-400 text-center">Add Book</h2>
@@ -118,7 +132,7 @@ const CreateBook = () => {
             <div className="mb-4 w-1/2">
               <input
                 type="number"
-                value={noOfCopies}
+                value={NoOfCopies}
                 onChange={(e) => setNoOfCopies(e.target.value)}
                 className="w-full px-3 py-2 border rounded"
                 required
@@ -141,32 +155,36 @@ const CreateBook = () => {
               <input
                 type="file"
                 id="cover"
+                name='cover'
+                // value={cover}
                 onChange={(e) => handleFileChange(e, setCover)}
                 className="hidden"
                 required
                 accept='image/*'
               />
               <div className='flex justify-center items-center'>
-              <GoUpload />
-              <label htmlFor="cover" className="text-[#1198f1] cursor-pointer">
-              Upload Cover
-              </label>
+                <GoUpload />
+                <label htmlFor="cover" className="text-[#1198f1] mx-2 cursor-pointer">
+                  Upload Book Cover
+                </label>
               </div>
             </div>
             <div className="mb-4 w-1/2">
               <input
                 type="file"
                 id="book"
+                name='book'
+
                 onChange={(e) => handleFileChange(e, setBook)}
                 className="hidden"
                 required
                 accept='.pdf, .docs, .doc'
               />
               <div className='flex items-center'>
-              <GoUpload />
-              <label htmlFor="book" className="text-[#1198f1] cursor-pointer">
-                Upload Book
-              </label>
+                <GoUpload />
+                <label htmlFor="book" className="text-[#1198f1] mx-2 cursor-pointer">
+                  Upload Book
+                </label>
               </div>
             </div>
           </div>
@@ -178,6 +196,7 @@ const CreateBook = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

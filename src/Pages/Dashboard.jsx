@@ -108,7 +108,7 @@ const Account = ({ deleteUser }) => {
           <div>
             <br />
             { 
-              <div className="grid grid-cols-3 h-screen gap-6">
+              <div className="grid grid-cols-3 h-full gap-6">
                 <div className="col-span-1 bg-white p-6 rounded-lg shadow-md">
                   <>
                   <h3 className="text-lg  text-violet-950">
