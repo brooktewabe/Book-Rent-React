@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import { useLoaderData, Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../axiosInterceptor";
 import withAuth from "../withAuth";
 import { FaEdit, FaTrash, FaSearch, FaFilter } from "react-icons/fa";
-import Chart from "../Components/Chart"
-import AreaChart from "../Components/AreaChart"
+import Chart from "../Components/Chart";
+import AreaChart from "../Components/AreaChart";
 import IncomeSection from "../Components/Income";
 
-const Account = ({ deleteUser }) => {
-  const user = useLoaderData();
+const Dashboard = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const [time, setTime] = useState(new Date());
@@ -19,32 +18,40 @@ const Account = ({ deleteUser }) => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [filterVisible, setFilterVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState(""); // State for filter
+  const [filterStatus, setFilterStatus] = useState("");
   const [filteredBooks, setFilteredBooks] = useState([]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date());
-    }, 1000); // Update every second
+    }, 1000);
 
     return () => clearInterval(timer); // Cleanup interval on component unmount
   }, []);
 
   const formatTime = (date) => {
     const options = {
-      weekday: 'short', // Tue
-      day: '2-digit',   // 14
-      month: 'short',    // Nov
-      year: 'numeric',   // 2024
-      hour12: true       // AM/PM format
+      weekday: "short", // Tue
+      day: "2-digit",
+      month: "short", // Nov
+      year: "numeric",
+      hour12: true, // AM/PM format
     };
-    return date.toLocaleDateString('en-US', options) + ', ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    return (
+      date.toLocaleDateString("en-US", options) +
+      ", " +
+      date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+    );
   };
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/books");
+        const response = await axios.get("api/books");
         setBooks(response.data);
         setFilteredBooks(response.data);
       } catch (error) {
@@ -86,7 +93,7 @@ const Account = ({ deleteUser }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:5000/books/${bookId}`);
+          await axios.delete(`api/books/${bookId}`);
           setBooks(books.filter((book) => book.id !== bookId));
           toast.success("Book Deleted Successfully");
         } catch (error) {
@@ -107,20 +114,20 @@ const Account = ({ deleteUser }) => {
         <div className="container m-auto py-10 px-6">
           <div>
             <br />
-            { 
+            {
               <div className="grid grid-cols-3 h-full gap-6">
                 <div className="col-span-1 bg-white p-6 rounded-lg shadow-md">
                   <>
-                  <h3 className="text-lg  text-violet-950">
-                    This Month Statistics
-                  </h3>
-                  <p className="text-[#9aa3a7] text-sm">{formatTime(time)}</p>
+                    <h3 className="text-lg  text-violet-950">
+                      This Month Statistics
+                    </h3>
+                    <p className="text-[#9aa3a7] text-sm">{formatTime(time)}</p>
                   </>
                   <div>
-                    <IncomeSection/>
+                    <IncomeSection />
                   </div>
                   <div className="mt-8 mr-4">
-                    <Chart/>
+                    <Chart />
                   </div>
                 </div>
                 <div className="col-span-2 grid grid-rows-2 gap-6">
@@ -159,20 +166,38 @@ const Account = ({ deleteUser }) => {
                           className="w-full p-2 border border-gray-300 rounded"
                         >
                           <option value="">Select status</option>
-                          <option value="Active">Available</option>
-                          <option value="unavailable">Unavailable</option>
+                          <option value="Active">Free</option>
+                          <option value="unavailable">Rented</option>
                         </select>
                       </div>
                     )}
                     <table className="min-w-full bg-white">
                       <thead>
                         <tr>
-                          <td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">Book no.</td>
-                          {role==='admin' &&<td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">Author</td>}
-                          {role==='book_owner' &&<td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">Book Name</td>}
-                          <td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">Status</td>
-                          <td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">Price</td>
-                          <td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">Action</td>
+                          <td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">
+                            Book no.
+                          </td>
+                          {role === "admin" && (
+                            <td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">
+                              Author
+                            </td>
+                          )}
+                          {role === "book_owner" && (
+                            <td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">
+                              Book Name
+                            </td>
+                          )}
+                          <td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">
+                            Status
+                          </td>
+                          <td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">
+                            Price
+                          </td>
+                          {role === "book_owner" && (
+                            <td className="py-2 text-[#9aa3a7] text-sm px-4 border-b">
+                              Action
+                            </td>
+                          )}
                         </tr>
                       </thead>
                       <tbody>
@@ -182,7 +207,9 @@ const Account = ({ deleteUser }) => {
                               {book.bookId}
                             </td>
                             <td className="py-2 px-4 border-b">
-                              {(role=='book_owner')?book.bookName: book.author}
+                              {role == "book_owner"
+                                ? book.bookName
+                                : book.author}
                             </td>
                             <td className="py-2 px-4 border-b">
                               <div className="flex items-center">
@@ -193,134 +220,46 @@ const Account = ({ deleteUser }) => {
                                       : "bg-red-500"
                                   }`}
                                 ></span>
-                                {book.status === "Active"
-                                  ? "Free"
-                                  : "Rented"}
+                                {book.status === "Active" ? "Free" : "Rented"}
                               </div>
                             </td>
                             <td className="py-2 px-4 border-b">
                               {book.rentPrice} Birr
                             </td>
-                            <td className="py-3 px-4 border-b flex space-x-2">
-                              <button
-                                onClick={() => onEditBook(book.id)}
-                                className="text-blue-500 hover:text-blue-700"
-                              >
-                                <FaEdit />
-                              </button>
-                              <button
-                                onClick={() => onDeleteBook(book.id)}
-                                className="text-red-500 hover:text-red-700"
-                              >
-                                <FaTrash />
-                              </button>
-                            </td>
+                            {role === "book_owner" && (
+                              <td className="py-3 px-4 border-b  space-x-2">
+                                <button
+                                  onClick={() => onEditBook(book.id)}
+                                  className="text-blue-500 hover:text-blue-700"
+                                >
+                                  <FaEdit />
+                                </button>
+                                <button
+                                  onClick={() => onDeleteBook(book.id)}
+                                  className="text-red-500 hover:text-red-700"
+                                >
+                                  <FaTrash />
+                                </button>
+                              </td>
+                            )}
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
                   <div className="bg-white p-6 rounded-lg shadow-md">
-                    <p className="text-lg font-bold mb-6">
-                       Earning Summary 
-                    </p>
-                      <AreaChart/>
+                    <p className="text-lg font-bold mb-6">Earning Summary</p>
+                    <AreaChart />
                   </div>
                 </div>
               </div>
             }
-            <div>
-              {role === "hr" && (
-                <div className="grid grid-cols-1 w-full gap-6">
-                  <div className="bg-white p-6 rounded-lg shadow-md md:text-left">
-                    <h3 className="text-indigo-800 text-lg font-bold mb-6">
-                      Company Information
-                    </h3>
-                    <h3 className="text-xl font-bold">Company Name:</h3>
-                    <p className="my-2 bg-indigo-100 p-2 font-bold">
-                      {user.companyname}
-                    </p>
-                    <h3 className="text-xl font-bold">Company Description:</h3>
-                    <p className="my-2 bg-indigo-100 p-2 font-bold">
-                      {user.companydescription}
-                    </p>
-                    <h3 className="text-xl font-bold">Email Address:</h3>
-                    <p className="my-2 bg-indigo-100 p-2 font-bold">
-                      {user.contactemail}
-                    </p>
-                    <h3 className="text-xl font-bold">Phone Number:</h3>
-                    <p className="my-2 bg-indigo-100 p-2 font-bold">
-                      +251 {user.companyPhone}
-                    </p>
-                  </div>
-                </div>
-              )}
-              {/* <div className="bg-white p-6 rounded-lg shadow-md mt-6"> */}
-                {role === "user" && (
-                  <>
-                    <Link
-                      to={`/UpdateUser/${user.id}`}
-                      className="bg-indigo-500 hover:bg-indigo-600 text-white text-center font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-                    >
-                      Update Information
-                    </Link>
-                    <Link
-                      to={`/changepassword/${user.id}`}
-                      className="bg-green-500 hover:bg-green-600 text-white text-center font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-                    >
-                      Change Password
-                    </Link>
-                    <button
-                      onClick={() => onDelete(user.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-                    >
-                      Delete Account
-                    </button>
-                  </>
-                )}
-                {role === "hr" && (
-                  <>
-                    <Link
-                      to={`/CompanyInfo/${user.id}`}
-                      className="bg-indigo-500 hover:bg-indigo-600 text-white text-center font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-                    >
-                      Update Information
-                    </Link>
-                    <Link
-                      to={`/changepassword/${user.id}`}
-                      className="bg-green-500 hover:bg-green-600 text-white text-center font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-                    >
-                      Change Password
-                    </Link>
-                    <button
-                      onClick={() => onDelete(user.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-                    >
-                      Delete Account
-                    </button>
-                  </>
-                )}
-                {/* {role === "admin" && (
-                  <Link
-                    to={`/changepassword/${user.id}`}
-                    className="bg-green-500 hover:bg-green-600 text-white text-center font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-                  >
-                    Change Password
-                  </Link>
-                )} */}
-              </div>
-            </div>
           </div>
-        {/* </div> */}
+        </div>
       </section>
     </>
   );
 };
 
-const userLoader = async ({ params }) => {
-  const res = await axios.get(`/api/profile/${params.id}`);
-  return res.data;
-};
-
-export { Account, userLoader };
-export default withAuth(Account);
+export { Dashboard };
+export default withAuth(Dashboard);

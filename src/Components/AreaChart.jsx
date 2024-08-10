@@ -1,45 +1,59 @@
-import Chart from 'react-apexcharts';
+import { useState, useEffect } from "react";
+import axios from "../axiosInterceptor";
+import Chart from "react-apexcharts";
 
 const AreaChart = () => {
-  const options = {
-    chart: {
-      height: 280,
-      type: 'area',
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    series: [
-      {
-        name: 'Series 1',
-        data: [455, 552, 358, 455, 159, 253, 25],
-      },
-    ],
-    fill: {
-      type: 'gradient',
-      gradient: {
-        shadeIntensity: 1,
-        opacityFrom: 0.7,
-        opacityTo: 0.9,
-        stops: [0, 90, 100],
-      },
-    },
-    xaxis: {
-      categories: [
-        '01 Jan',
-        '02 Jan',
-        '03 Jan',
-        '04 Jan',
-        '05 Jan',
-        '06 Jan',
-        '07 Jan',
-      ],
-    },
-  };
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    const fetchEarningsData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/earning/monthly');
+        const monthlyData = response.data;
+
+        const months = monthlyData.map(item => item.month);
+        const earnings = monthlyData.map(item => parseFloat(item.earnings.toFixed(2)));
+
+        setData({
+          series: [{
+            name: 'Earnings',
+            data: earnings
+          }],
+          options: {
+            chart: {
+              type: 'area',
+              height: 350
+            },
+            xaxis: {
+              categories: months
+            },
+            title: {
+              text: 'Monthly Earnings',
+              align: 'left'
+            },
+            colors: ['#008FFB']
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching earnings data:", error);
+      }
+    };
+
+    fetchEarningsData();
+  }, []);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <Chart options={options} series={options.series} type="area" height={280} />
+    <div>
+      {data.series ? (
+        <Chart
+          options={data.options}
+          series={data.series}
+          type="area"
+          height={350}
+        />
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };

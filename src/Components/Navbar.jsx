@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { AiOutlineMenu, AiOutlineUser } from "react-icons/ai";
-import { CiLogout, CiViewList  } from "react-icons/ci";
-import { MdOutlineAccountCircle,  } from "react-icons/md";
+import { CiLogout, CiViewList } from "react-icons/ci";
+import { MdOutlineAccountCircle } from "react-icons/md";
 import { useNavigate, NavLink } from "react-router-dom";
 import { BiSolidDashboard } from "react-icons/bi";
 import { GoUpload } from "react-icons/go";
@@ -17,17 +17,17 @@ const Navbar = () => {
 
   const adminMenu = [
     {
-      icon: <BiSolidDashboard  size={25} className="mr-4" />,
+      icon: <BiSolidDashboard size={25} className="mr-4" />,
       text: "Dashboard",
       link: "/",
       className: { linkClass },
     },
-    {
-      icon: <GoUpload size={25} className="mr-4" />,
-      text: "Book Upload",
-      link: "/add-book",
-      className: { linkClass },
-    },
+    // {
+    //   icon: <GoUpload size={25} className="mr-4" />,
+    //   text: "Book Upload",
+    //   link: "/add-book",
+    //   className: { linkClass },
+    // },
     {
       icon: <CiViewList size={25} className="mr-4" />,
       text: "Books",
@@ -44,7 +44,7 @@ const Navbar = () => {
 
   const userMenu = [
     {
-      icon: <BiSolidDashboard  size={25} className="mr-4" />,
+      icon: <BiSolidDashboard size={25} className="mr-4" />,
       text: "Dashboard",
       link: "/",
       className: { linkClass },
@@ -55,18 +55,18 @@ const Navbar = () => {
       link: "/add-book",
       className: { linkClass },
     },
-    {
-      icon: <CiViewList size={25} className="mr-4" />,
-      text: "Books",
-      link: "/books",
-      className: { linkClass },
-    },
-    {
-      icon: <AiOutlineUser size={25} className="mr-4" />,
-      text: "Owners",
-      link: "/owners",
-      className: { linkClass },
-    },
+    // {
+    //   icon: <CiViewList size={25} className="mr-4" />,
+    //   text: "Books",
+    //   link: "/books",
+    //   className: { linkClass },
+    // },
+    // {
+    //   icon: <AiOutlineUser size={25} className="mr-4" />,
+    //   text: "Owners",
+    //   link: "/owners",
+    //   className: { linkClass },
+    // },
   ];
 
   const handleOutsideClick = (e) => {
@@ -136,7 +136,8 @@ const Navbar = () => {
         <div className="bg-[#120927] rounded-t-xl">
           <div className="flex items-center space-x-4 ml-4">
             <img src={book} width={30} height={30} alt="Book" />
-            <br /><br />
+            <br />
+            <br />
             <p className="text-2xl text-blue-500">Book Rent</p>
           </div>
         </div>
@@ -171,17 +172,26 @@ const Navbar = () => {
                 </div>
               ))}
             <div className="py-4">
-              <NavLink to={value} className={linkClass} onClick={() => setNav(false)}>
+              <NavLink
+                to={value}
+                className={linkClass}
+                onClick={() => setNav(false)}
+              >
                 <li className="text-xl flex cursor-pointer w-[95%] mx-auto hover:bg-[#1198f1]">
-                  <MdOutlineAccountCircle size={30} className="mr-4" /> My Profile
+                  <MdOutlineAccountCircle size={30} className="mr-4" /> My
+                  Profile
                 </li>
               </NavLink>
             </div>
           </ul>
         </nav>
         <div className="absolute bottom-10 left-10 ">
-          <button className=" hover:bg-[#1198f1] px-5 bg-slate-700 flex items-center text-white" onClick={handleLogout}>
-            <CiLogout size={30} className="mr-4" /> Logout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button
+            className=" hover:bg-[#1198f1] px-5 bg-slate-700 flex items-center text-white"
+            onClick={handleLogout}
+          >
+            <CiLogout size={30} className="mr-4" />{" "}
+            Logout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </button>
         </div>
       </div>
