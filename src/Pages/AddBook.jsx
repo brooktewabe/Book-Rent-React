@@ -170,7 +170,7 @@ const CreateBook = () => {
                   htmlFor="cover"
                   className="text-[#1198f1] mx-2 cursor-pointer"
                 >
-                  Upload Book Cover
+                  Upload Book Cover <br /> <span className="text-[#98b4c7]">(Required)</span>
                 </label>
               </div>
             </div>
@@ -190,7 +190,7 @@ const CreateBook = () => {
                   htmlFor="book"
                   className="text-[#1198f1] mx-2 cursor-pointer"
                 >
-                  Upload Book
+                  Upload Book <br /> <span className="text-[#98b4c7]">(Required)</span>
                 </label>
               </div>
             </div>
