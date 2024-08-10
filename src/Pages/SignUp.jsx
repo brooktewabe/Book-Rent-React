@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +11,6 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // eslint-disable-next-line no-unused-vars
   const [role, setRole] = useState("book_owner");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -18,9 +18,6 @@ const SignUp = () => {
   const [phoneNo, setPhoneNo] = useState();
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-
-  // const passwordRegex =
-  //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +39,6 @@ const SignUp = () => {
         }),
       });
       toast.success("Sign up successful. Please log in.");
-      // signupEmail()
       navigate("/login");
     } catch (error) {
       if (error.response && error.response.status === 409) {
@@ -61,10 +57,6 @@ const SignUp = () => {
         .required("Email is required"),
       password: Yup.string()
         .required("Password is required")
-        // .matches(
-        //   passwordRegex,
-        //   'Password must contain at least one number, one uppercase letter, one lowercase letter, and one special character'
-        // )
         .min(8, "Password must be at least 8 characters"),
       confirmPassword: Yup.string()
         .oneOf([password], "Passwords must match")

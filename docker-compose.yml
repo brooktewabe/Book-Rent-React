@@ -9,9 +9,9 @@ services:
       - "80:80"
     # restart: always
     networks:
-      - job-app
+      - book-app
 
 networks:
-  job-app:
-    name: job-app
+  book-app:
+    name: book-app
     # external: true

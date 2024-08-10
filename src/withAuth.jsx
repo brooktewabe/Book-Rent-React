@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Spinner from './Components/Spinner';
@@ -10,8 +11,7 @@ const withAuth = (WrappedComponent) => {
       const [user, setUser] = useState(null);
       const [loading, setLoading] = useState(true);
       const [redirecting, setRedirecting] = useState(false);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      const cookies = new Cookies(); // Create an instance of Cookies
+      const cookies = new Cookies(); 
 
       useEffect(() => {
         const checkAuth = async () => {

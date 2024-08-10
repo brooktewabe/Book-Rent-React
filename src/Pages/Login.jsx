@@ -30,14 +30,11 @@ const ValidatedLoginForm = () => {
 
       Cookies.set("jwt", response.data.jwt, { expires: 1 });
       Cookies.set("userId", response.data.profileId, { expires: 1 });
-      // localStorage.setItem("usercompleted", response.data.usercompleted);
-      // localStorage.setItem("hrcompleted", response.data.hrcompleted);
-      // localStorage.setItem("hrStatus", response.data.hrStatus);
       localStorage.setItem("role", response.data.role);
 
       setEmail("");
       setPassword("");
-      navigateAfterLogin();
+      navigate("/");
     } catch (error) {
       console.error("Login error:", error);
       toast.error("Invalid email or password");
@@ -65,18 +62,6 @@ const ValidatedLoginForm = () => {
       });
       setErrors(newErrors);
       return false;
-    }
-  };
-
-  const navigateAfterLogin = () => {
-    const role = localStorage.getItem("role");
-    // const usercompleted = localStorage.getItem("usercompleted");
-    // const hrcompleted = localStorage.getItem("hrcompleted");
-
-    if (role === "admin") {
-      navigate("/");
-    } else if (role === "book_owner") {
-      navigate(`/UpdateUser/${Cookies.get("userId")}`);
     }
   };
 
@@ -167,9 +152,6 @@ const ValidatedLoginForm = () => {
           </div>
         </form>
         <div className="text-center justify-between">
-          {/* <Link to="/forgotpassword" className="text-sm text-blue-500">
-        Forgot Password?
-      </Link> */}
           <span className="text-sm">
             Don&apos;t have an account?
             <Link to="/signup" className="text-blue-400">
