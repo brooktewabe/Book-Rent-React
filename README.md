@@ -1,6 +1,6 @@
 # Backend - https://github.com/brooktewabe/Book-Rent-nestJS-API
-Demo scrreenshot
-Screenshot (45).png
+Demo screenshot <br/>
+![Demo](Screenshot (45).png)
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
