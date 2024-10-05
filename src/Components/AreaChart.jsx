@@ -57,5 +57,4 @@ const AreaChart = () => {
     </div>
   );
 };
-
 export default AreaChart;
